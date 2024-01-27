@@ -25,28 +25,45 @@
 
 (defcfg 
   process-unmapped-keys yes
-  
+  linux-unicode-termination space
 )
 
 (deflayer colemak
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    caps
-  @tav q    w    f    p    b    j    l    u    y    ;    [    ]    \
-  bspc a    r    s    t    g    m    n    e    i    o    '    ret
+  @grl XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
+  bspc @ag  r    s    t    g    m    n    e    i  @onum  '    ret
   lsft x    c    d    v    z    k    h    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
-(deflayer navigation
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    caps
+(deflayer programming
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    f    p    b    j   home  up  end   ;    [    ]    \
-  bspc a    r    s    t    g    m   lft  down rght  o    '    ret
+  bspc a    r    s    t    g    m   lft  down rght  @_   '    ret
   lsft x    c    d    v    z    k    h    ,    .    /    rsft
+  lctl lmet lalt         lshft            ralt rmet rctl
+)
+
+(deflayer numpad
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    7    8    9    b    j    l    u    y    ;    [    ]    \
+  bspc @*   4    5    6    g    m    n    e    i    o    '    ret
+  lsft 1    2    3    0    z    k    h    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
 (defalias
-  nav (layer-while-held navigation)
-  tav (tap-hold 200 200 tab @nav)
+  prog	(layer-while-held programming)
+  num	(layer-while-held numpad)
+  
+  ag 	(tap-hold-except-keys 10 200 a @prog (rsft))
+  
+  onum	(tap-hold 100 300 o 	@num)
+  grl 	(tap-hold 100 200 grv 	lrld)
+
+  *	S-8
+  _ 	S--
+  ! 	S-1
 )
 
 
