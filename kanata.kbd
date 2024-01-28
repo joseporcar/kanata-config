@@ -15,55 +15,67 @@
 ;; keys matches with deflayer declarations and all deflayer declarations must
 ;; have the same number of keys as defsrc. Any keys not listed in defsrc will
 ;; be passed straight to the operating system.
-(defsrc
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rmet rctl
-)
 
 (defcfg 
   process-unmapped-keys yes
   linux-unicode-termination space
 )
 
-(deflayer colemak
-  @grl XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
-  tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
-  bspc @ag  r    s    t    g    m    n    e    i  @onum  '    ret
-  lsft x    c    d    v    z    k    h    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rmet rctl
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft      up
+  lctl lmet lalt           spc            ralt rmet rctl        lft down rght
 )
 
-(deflayer programming
+(deflayer colemak
+  @grl XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @deflt 
+  tab  q    w    f    p    b    j    l    u    y    ;    @_    XX    XX
+  bspc a    r    s   @tav  g    m  @nnum  e    i    o    ret    XX
+  lsft x    c    d    v    z    k    h    ,    .    /    @shf'   XX
+  lctl lmet lalt           spc            ralt rmet rctl      XX XX XX
+)
+
+(deflayer navigation
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    f    p    b    j   home  up  end   ;    [    ]    \
-  bspc a    r    s    t    g    m   lft  down rght  @_   '    ret
-  lsft x    c    d    v    z    k    h    ,    .    /    rsft
-  lctl lmet lalt         lshft            ralt rmet rctl
+  tab  q    w    f    p    b    j   home  up  end  esc   [    ]    \
+  bspc @ls  r    s    XX   g    m   lft  down rght  o    '    ret
+  lsft x    c    d    v    z    k   pgup  pgdn .    /    rsft    XX
+  lctl lmet lalt           spc            ralt rmet rctl      XX XX XX
 )
 
 (deflayer numpad
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    7    8    9    b    j    l    u    y    ;    [    ]    \
-  bspc @*   4    5    6    g    m    n    e    i    o    '    ret
-  lsft 1    2    3    0    z    k    h    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rmet rctl
+  S-=  =    7    8    9    @*    j    l    [    ]    ;    [    ]    \
+  bspc -    4    5    6    /    m    XX   @lpr @rpr  @ls '    ret
+  lsft 1    2    3    0   grv   k    h    ,    .    /    rsft   XX
+  lctl lmet lalt           spc            lsft rmet rctl    XX XX XX 
+)
+
+(deflayer default 
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    @clmk
+  tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
+  bspc a    r    s    t    g    m    n    e    i    o    '    ret
+  lsft x    c    d    v    z    k    h    ,    .    /    lshft      up
+  lctl lmet lalt           spc            ralt rmet rctl        lft down rght
 )
 
 (defalias
-  prog	(layer-while-held programming)
-  num	(layer-while-held numpad)
+  nav	  (layer-while-held   navigation)
+  num	  (layer-while-held   numpad    )
+  deflt (layer-switch       default   )
+  clmk  (layer-switch       colemak   )
   
-  ag 	(tap-hold-except-keys 10 200 a @prog (rsft))
-  
-  onum	(tap-hold 100 300 o 	@num)
-  grl 	(tap-hold 100 200 grv 	lrld)
+  tav 	(tap-hold 10  200  t    @nav) 
+  nnum	(tap-hold 10  300  n 	  @num)
+  grl 	(tap-hold 100 200  grv  lrld) 
+  shf'  (tap-hold 10  100  '    lshft)
 
-  *	S-8
-  _ 	S--
-  ! 	S-1
+  *	    S-8
+  _ 	  S--
+  ! 	  S-1
+  lpr   S-9   ;; left parenthesis
+  rpr   S-0   ;; right parenthesis
+  ls    lshft
 )
-
-
