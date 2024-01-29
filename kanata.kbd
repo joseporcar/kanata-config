@@ -40,17 +40,17 @@
 (deflayer navigation
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    f    p    b    j   home  up  end  esc   [    ]    \
-  bspc @ls  r    s    XX   g    m   lft  down rght  o    '    ret
-  lsft x    c    d    v    z    k   pgup  pgdn .    /    rsft    XX
+  bspc @ls  r    s   @clmk g    m   lft  down rght  o    '    ret
+  lsft x    c    d    v    z   pgup pgdn  ,    .    /    @nvlk   XX
   lctl lmet lalt           spc            ralt rmet rctl      XX XX XX
 )
 
 (deflayer numpad
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  S-=  =    7    8    9    @*    j    l    [    ]    ;    [    ]    \
-  bspc -    4    5    6    /    m    XX   @lpr @rpr  @ls '    ret
-  lsft 1    2    3    0   grv   k    h    ,    .    /    rsft   XX
-  lctl lmet lalt           spc            lsft rmet rctl    XX XX XX 
+  S-=  =    7    8    9    @*   j    l    [    ]    ;    [   ]    \
+  bspc -    4    5    6    /    m  @clmk  @lpr @rpr @ls  '    ret
+  S-'  1    2    3    0   grv   k    h    ,    .    \    @nmlk  XX
+  lctl lmet lalt           spc            lsft rmet rctl     XX XX XX 
 )
 
 (deflayer default 
@@ -66,9 +66,11 @@
   num	  (layer-while-held   numpad    )
   deflt (layer-switch       default   )
   clmk  (layer-switch       colemak   )
+  nmlk	(layer-switch				numpad		)
+  nvlk	(layer-switch				navigation)
   
   tav 	(tap-hold 10  200  t    @nav) 
-  nnum	(tap-hold 10  300  n 	  @num)
+  nnum	(tap-hold 10  200  n 	  @num)
   grl 	(tap-hold 100 200  grv  lrld) 
   shf'  (tap-hold 10  100  '    lshft)
 
