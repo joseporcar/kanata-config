@@ -8,7 +8,7 @@ Environment=DISPLAY=:0
 Environment=HOME=/home
 Type=simple
 ExecStartPre=/sbin/modprobe uinput
-ExecStart=/home/pcpro/.cargo/bin/kanata --cfg "/home/pcpro/kanata-config/kanata.kbd"
+ExecStart=~/.cargo/bin/kanata --cfg "~/kanata-config/kanata.kbd"
 Restart=no
 
 [Install]
