@@ -1,24 +1,18 @@
-;; Comments are prefixed by double-semicolon. A single semicolon is parsed as the
-;; keyboard key. Comments are ignored for the configuration file.
-;;
-;; This configuration language is Lisp-like. If you're unfamiliar with Lisp,
-;; don't be alarmed. The maintainer jtroo is also unfamiliar with Lisp. You
-;; don't need to know Lisp in-depth to be able to configure kanata.
-;;
-;; If you follow along with the examples, you should be fine. Kanata should
-;; also hopefully have helpful error messages in case something goes wrong.
-;; If you need help, you are welcome to ask.
+;; Ideas: caps-word(mostly for definingmacros.. idk how useful), dynamic macros (could be fun to autmate repetitive tasks.. not sure how useful), switch for us international behavior combined with templates. chords for remapping the windows shitty key
 
-;; Only one defsrc is allowed.
-;;
-;; defsrc defines the keys that will be intercepted by kanata. The order of the
-;; keys matches with deflayer declarations and all deflayer declarations must
-;; have the same number of keys as defsrc. Any keys not listed in defsrc will
-;; be passed straight to the operating system.
+;; These are for replicating US-international behavior
+;; (deftemplate
+
+;; )
+
 
 (defcfg 
   process-unmapped-keys yes
   linux-unicode-termination space
+)
+
+(defoverrides
+  (caps) (bspc)
 )
 
 (defsrc
@@ -26,48 +20,55 @@
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft      up
-  lctl lmet lalt           spc            ralt rmet rctl        lft down rght
+  lctl lmet lalt           spc            ralt rmet rctl       lft down rght
 )
 
 (deflayer colemak
-  @grl XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @deflt 
-  tab  q    w    f    p    b    j    l    u    y    ;    @_    XX    XX
-  bspc a    r    s   @tav  g    m  @nnum  e    i    o    ret    XX
-  lsft x    c    d    v    z    k    h    ,    .    /    @shf'   XX
-  lctl lmet lalt           spc            ralt rmet rctl      XX XX XX
-)
-
-(deflayer navigation
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    f    p    b    j   home  up  end  esc   [    ]    \
-  bspc @ls  r    s   @clmk g    m   lft  down rght  o    '    ret
-  lsft x    c    d    v    z   pgup pgdn  ,    .    /    @nvlk   XX
-  lctl lmet lalt           spc            ralt rmet rctl      XX XX XX
-)
-
-(deflayer numpad
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  S-=  =    7    8    9    @*   j    l    [    ]    ;    [   ]    \
-  bspc -    4    5    6    /    m  @clmk  @lpr @rpr @ls  '    ret
-  S-'  1    2    3    0   grv   k    h    ,    .    \    @nmlk  XX
-  lctl lmet lalt           spc            lsft rmet rctl     XX XX XX 
-)
-
-(deflayer default 
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    @clmk
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    @qwty
   tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
   bspc a    r    s    t    g    m    n    e    i    o    '    ret
   lsft x    c    d    v    z    k    h    ,    .    /    lshft      up
   lctl lmet lalt           spc            ralt rmet rctl        lft down rght
 )
 
+(deflayermap (qwerty)
+  bspc @clmk
+)
+
+(deflayer custom
+  @grl _    _    _    _    _    _    _    _    _    _    _    _     @clmk 
+  tab  q    w    f    p    b    j    l    u    y    ;    @_   _     _  
+  bspc a    r    s   @tav  g    m  @nnum  e    i    o    ret   _  
+  lsft x    c    d    v    z    k    h    ,    .    /    @shf'  _  
+  lctl lmet lalt           spc            ralt rmet rctl    _   _   _  
+)
+
+(deflayer navigation
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    f    p    b    j   home  up  end  esc   [    ]    \
+  bspc @ls  r    s   @clmk g    m   lft  down rght  o    '    ret
+  lsft x    c    d    v    z   pgup pgdn  ,    .    /    @nvlk  _  
+  lctl lmet lalt           spc            ralt rmet rctl    _   _   _  
+)
+
+(deflayer numpad
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  S-=  =    7    8    9    @*   j    l    [    ]    ;    [   ]    \
+  bspc -    4    5    6    /    m  @clmk  @lpr @rpr @ls  '    ret
+  S-'  1    2    3    0   grv   k    h    ,    .    \    @nmlk _  
+  lctl lmet lalt           spc            lsft rmet rctl    _   _   _   
+)
+
+
+
 (defalias
   nav	  (layer-while-held   navigation)
   num	  (layer-while-held   numpad    )
-  deflt (layer-switch       default   )
   clmk  (layer-switch       colemak   )
+  cstm  (layer-switch       custom   )
   nmlk	(layer-switch				numpad		)
   nvlk	(layer-switch				navigation)
+  qwty  (layer-switch       qwerty)
   
   tav 	(tap-hold 10  200  t    @nav) 
   nnum	(tap-hold 10  200  n 	  @num)
@@ -81,3 +82,4 @@
   rpr   S-0   ;; right parenthesis
   ls    lshft
 )
+
