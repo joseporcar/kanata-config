@@ -6,14 +6,26 @@
 
 ;; TODO: make deadkeys work for the keyboard 
 ;; These come from actions from: (the following won't work because it outputs unicode)
-  ;; dead_grave (unicode r#"`"#)
-  ;; dead_tilde (unicode r#"~"#)
-  ;; dead_acute (unicode r#"'"#)
-  ;; dead_diaeresis (unicode r#"¨"#)
-  ;; dead_circumflex (unicode r#"^"#)
-  ;; dead_horn (unicode r#"̛"#)   ;; Combining horn
-  ;; dead_ogonek (unicode r#"˛"#)
-
+(defalias
+  ;; Dead keys and special characters
+  dead_grave (unicode r#"`"#)
+  dead_tilde (unicode r#"~"#)
+  dead_circumflex (unicode r#"^"#)
+  dead_acute (unicode r#"'"#)
+  dead_diaeresis (unicode r#"¨"#)
+  dead_macron (unicode r#"¯"#)
+  dead_breve (unicode r#"˘"#)
+  dead_abovering (unicode r#"˚"#)
+  dead_ogonek (unicode r#"˛"#)
+  dead_cedilla (unicode r#"¸"#)
+  dead_caron (unicode r#"ˇ"#)
+  dead_horn (unicode r#"̛"#)
+  dead_belowdot (unicode r#"̣"#)
+  dead_abovedot (unicode r#"̇"#)
+  dead_hook (unicode r#"̉"#)
+  dead_stroke (unicode r#"̸"#)
+  dead_doubleacute (unicode r#"˝"#)
+)
 ;; consider also making each later have better specific placements for the internatinoal stuff. The current approach was quick and dirty
 
 (defcfg 
@@ -23,22 +35,175 @@
   concurrent-tap-hold yes
 )
 
-(defoverrides
-  (caps) (bspc)
-)
-
 ;; Template for US International AltGr behavior
-(defalias
+(defvar
   mod-key ralt
 )
-
-(deftemplate us-intl (normal modded shift-modded)
+;; Template for US International behavior with 4 levels
+(deftemplate us-intl (normal altgr shifted-altgr)
   (switch
-    (and (lsft rsft) ($mod-key)) $shift-modded break
-    (($mod-key)) $modded break
+    ((and (or lsft rsft) $mod-key)) $shifted-altgr break
+    ($mod-key) $altgr break
     () $normal break
   )
 )
+
+
+;; Unicode aliases for special characters
+;; Unicode aliases for all special characters
+(defalias
+
+  
+  ;; Special characters
+  exclamdown (unicode r#"¡"#)
+  onesuperior (unicode r#"¹"#)
+  twosuperior (unicode r#"²"#)
+  threesuperior (unicode r#"³"#)
+  currency (unicode r#"¤"#)
+  sterling (unicode r#"£"#)
+  EuroSign (unicode €)
+  yen (unicode ¥)
+  onequarter (unicode ¼)
+  onehalf (unicode ½)
+  threequarters (unicode ¾)
+  multiply (unicode ×)
+  division (unicode ÷)
+  
+  ;; Accented characters
+  aacute (unicode á)
+  Aacute (unicode Á)
+  adiaeresis (unicode ä)
+  Adiaeresis (unicode Ä)
+  aring (unicode å)
+  Aring (unicode Å)
+  eacute (unicode é)
+  Eacute (unicode É)
+  registered (unicode ®)
+  trademark (unicode ™)
+  thorn (unicode þ)
+  THORN (unicode Þ)
+  udiaeresis (unicode ü)
+  Udiaeresis (unicode Ü)
+  uacute (unicode ú)
+  Uacute (unicode Ú)
+  iacute (unicode í)
+  Iacute (unicode Í)
+  oacute (unicode ó)
+  Oacute (unicode Ó)
+  odiaeresis (unicode ö)
+  Odiaeresis (unicode Ö)
+  ssharp (unicode ß)
+  section (unicode §)
+  eth (unicode ð)
+  ETH (unicode Ð)
+  ediaeresis (unicode ë)
+  Ediaeresis (unicode Ë)
+  idiaeresis (unicode ï)
+  Idiaeresis (unicode Ï)
+  oe (unicode œ)
+  OE (unicode Œ)
+  oslash (unicode ø)
+  Oslash (unicode Ø)
+  paragraph (unicode ¶)
+  degree (unicode °)
+  ae (unicode æ)
+  AE (unicode Æ)
+  periodcentered (unicode ·)
+  copyright (unicode ©)
+  cent (unicode ¢)
+  ntilde (unicode ñ)
+  Ntilde (unicode Ñ)
+  mu (unicode µ)
+  plusminus (unicode ±)
+  ccedilla (unicode ç)
+  Ccedilla (unicode Ç)
+  notsign (unicode ¬)
+  brokenbar (unicode ¦)
+  guillemotleft (unicode «)
+  guillemotright (unicode »)
+  leftsinglequotemark (unicode `)
+  rightsinglequotemark (unicode ´)
+  leftdoublequotemark (unicode “)
+  rightdoublequotemark (unicode ”)
+
+  ;; Basic shifted characters
+  ! S-1
+  @ S-2
+  # S-3
+  $ S-4
+  % S-5
+  ^ S-6
+  & S-7
+  * S-8
+  ;; ( S-9
+  ;; ) S-0
+  _ S--
+  + S-=
+  { S-[
+  } S-]
+  | S-\
+  : S-;
+  ;; " S-'
+  < S-,
+)
+
+(defalias
+  ;; Row 1 (numbers)
+  ;; grv (t! us-intl grv @dead_grave @dead_tilde)
+  1   (t! us-intl 1  1   @exclamdown)
+  ;; 2   (t! us-intl 2   @@   2   @twosuperior)
+  ;; 3   (t! us-intl 3   @#   3   @threesuperior)
+  ;; 4   (t! us-intl 4   @$   4   @currency)
+  ;; 5   (t! us-intl 5   @%   5   @EuroSign)
+  ;; 6   (t! us-intl 6   @^   @dead_circumflex @onequarter)
+  ;; 7   (t! us-intl 7   @&   7   @onehalf)
+  ;; 8   (t! us-intl 8   @*   8   @threequarters)
+  ;; 9   (t! us-intl 9   S-9   9   @leftsinglequotemark)
+  ;; 0   (t! us-intl 0   S-9   0   @rightsinglequotemark)
+  ;; -   (t! us-intl -   @_   -   @yen)
+  ;; =   (t! us-intl =   @+   =   @multiply)
+  
+  ;; ;; Row 2 (QWERTYUIOP)
+  ;; q   (t! us-intl q   S-q   @adiaeresis @Adiaeresis)
+  ;; w   (t! us-intl w   S-w   @aring @Aring)
+  e   (t! us-intl e  @eacute @Eacute)
+  ;; r   (t! us-intl r   S-r   @registered @trademark)
+  ;; t   (t! us-intl t   S-t   @thorn @THORN)
+  ;; y   (t! us-intl y   S-y   @udiaeresis @Udiaeresis)
+  u   (t! us-intl u @uacute @Uacute)
+  i   (t! us-intl i @iacute @Iacute)
+  o   (t! us-intl o @oacute @Oacute)
+  ;; p   (t! us-intl p   S-p   @odiaeresis @Odiaeresis)
+  ;; [   (t! us-intl [   @{   @guillemotleft @leftdoublequotemark)
+  ;; ]   (t! us-intl ]   @}   @guillemotright @rightdoublequotemark)
+  ;; \   (t! us-intl \   @|   @notsign @brokenbar)
+  
+  ;; ;; Row 3 (ASDFGHJKL)
+  a   (t! us-intl a @aacute @Aacute)
+  ;; s   (t! us-intl s   S   @ssharp @section)
+  ;; d   (t! us-intl d   D   @eth @ETH)
+  ;; f   (t! us-intl f   F   @ediaeresis @Ediaeresis)
+  ;; g   (t! us-intl g   G   g   G)
+  ;; h   (t! us-intl h   H   h   H)
+  ;; j   (t! us-intl j   J   @idiaeresis @Idiaeresis)
+  ;; k   (t! us-intl k   K   @oe @OE)
+  ;; l   (t! us-intl l   L   @oslash @Oslash)
+  ;; ;   (t! us-intl ;   @:   @paragraph @degree)
+  ;; '   (t! us-intl '   S-'   @dead_acute @dead_diaeresis)
+  
+  ;; ;; Row 4 (ZXCVBNM)
+  ;; z   (t! us-intl z   Z   @ae @AE)
+  ;; x   (t! us-intl x   X   @periodcentered @dead_stroke)
+  ;; c   (t! us-intl c   C   @copyright @cent)
+  ;; v   (t! us-intl v   V   v   V)
+  ;; b   (t! us-intl b   B   b   B)
+  n   (t! us-intl n  @ntilde @Ntilde)
+  ;; m   (t! us-intl m   M   @mu @plusminus)
+  ;; ,   (t! us-intl ,   @<   @ccedilla @Ccedilla)
+  ;; .   (t! us-intl .   @>   @dead_abovedot @dead_caron)
+  ;; /   (t! us-intl /   @?   @questiondown @dead_hook)
+)
+
 
 (defsrc
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
@@ -50,14 +215,18 @@
 
 (deflayer colemak
   grv  1   2    3    4    5    6    7    8    9    0    -    =    @qwty
-  tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
-  bspc a    r    s    t    g    m    n    e    i    o    '    ret
+  tab  q    w    f    p    b    j    l    @u    y    ;    [    ]    \
+  bspc @a    r    s    t    g    m    @n    @e    @i    @o    '    ret
   lsft x    c    d    v    z    k    h    ,    .    /    lshft      up
   lctl lmet lalt           spc            ralt rmet rctl        lft down rght
 )
 
-(deflayermap (qwerty)
-  bspc @clmk
+(deflayer qwerty
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    @clmk
+  tab  q    w    @e    r    t    y    @u    @i    @o    p    [    ]    \
+  bspc @a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    @n    m    ,    .    /    rsft      up
+  lctl lmet lalt           spc            ralt rmet rctl       lft down rght
 )
 
 (deflayer custom
@@ -100,9 +269,9 @@
   grl 	(tap-hold 100 200  grv  lrld) 
   shf'  (tap-hold 10  100  '    lshft)
 
-  *	    S-8
-  _ 	  S--
-  ! 	  S-1
+  ;; *	    S-8
+  ;; _ 	  S--
+  ;; ! 	  S-1
   lpr   S-9   ;; left parenthesis
   rpr   S-0   ;; right parenthesis
   ls    lshft
