@@ -1,18 +1,43 @@
-;; Ideas: caps-word(mostly for definingmacros.. idk how useful), dynamic macros (could be fun to autmate repetitive tasks.. not sure how useful), switch for us international behavior combined with templates. chords for remapping the windows shitty key
+;; Ideas: caps-word(mostly for definingmacros.. idk how useful), dynamic macros (could be fun to autmate repetitive tasks.. not sure how useful),
 
-;; These are for replicating US-international behavior
-;; (deftemplate
+;; This layout's internationals come from  https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/blob/master/symbols/us?ref_type=heads
+;; Particularly from altgr-intl and altgr-weur
+;; The base.txt has the relevant sections. This approach takes my favorite parts from both
 
-;; )
+;; TODO: make deadkeys work for the keyboard 
+;; These come from actions from: (the following won't work because it outputs unicode)
+  ;; dead_grave (unicode r#"`"#)
+  ;; dead_tilde (unicode r#"~"#)
+  ;; dead_acute (unicode r#"'"#)
+  ;; dead_diaeresis (unicode r#"¨"#)
+  ;; dead_circumflex (unicode r#"^"#)
+  ;; dead_horn (unicode r#"̛"#)   ;; Combining horn
+  ;; dead_ogonek (unicode r#"˛"#)
 
+;; consider also making each later have better specific placements for the internatinoal stuff. The current approach was quick and dirty
 
 (defcfg 
   process-unmapped-keys yes
   linux-unicode-termination space
+  windows-altgr cancel-lctl-press 
+  concurrent-tap-hold yes
 )
 
 (defoverrides
   (caps) (bspc)
+)
+
+;; Template for US International AltGr behavior
+(defalias
+  mod-key ralt
+)
+
+(deftemplate us-intl (normal modded shift-modded)
+  (switch
+    (and (lsft rsft) ($mod-key)) $shift-modded break
+    (($mod-key)) $modded break
+    () $normal break
+  )
 )
 
 (defsrc
@@ -24,7 +49,7 @@
 )
 
 (deflayer colemak
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    @qwty
+  grv  1   2    3    4    5    6    7    8    9    0    -    =    @qwty
   tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
   bspc a    r    s    t    g    m    n    e    i    o    '    ret
   lsft x    c    d    v    z    k    h    ,    .    /    lshft      up

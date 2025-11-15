@@ -1,0 +1,205 @@
+
+
+;; Unicode aliases for altgr-intl characters
+(defalias
+
+  onesuperior (unicode r#"¹"#)
+  exclamdown (unicode r#"¡"#)
+  ediaeresis (unicode r#"ë"#)
+  Ediaeresis (unicode r#"Ë"#)
+  oe (unicode r#"œ"#)
+  OE (unicode r#"Œ"#)
+  registered (unicode r#"®"#)
+  trademark (unicode r#"™"#)
+  periodcentered (unicode r#"·"#)
+  dead_stroke (unicode r#"̸"#)  ;; Combining long solidus overlay
+  onequarter (unicode r#"¼"#)
+  onehalf (unicode r#"½"#)
+  threequarters (unicode r#"¾"#)
+  EuroSign (unicode €)
+  ssharp (unicode ß)
+  ccedilla (unicode ç)
+  Ccedilla (unicode Ç)
+  ntilde (unicode ñ)
+  Ntilde (unicode Ñ)
+  udiaeresis (unicode ü)
+  Udiaeresis (unicode Ü)
+  idiaeresis (unicode ï)
+  Idiaeresis (unicode Ï)
+  odiaeresis (unicode ö)
+  Odiaeresis (unicode Ö)
+  adiaeresis (unicode ä)
+  Adiaeresis (unicode Ä)
+)
+
+;; Apply altgr-intl template to all keys
+(defalias
+  ;; Row 1 (numbers)
+  grv (t! us-intl grv S-grv @dead_grave @dead_tilde)
+  1   (t! us-intl 1   @!   1   @onesuperior)
+  2   (t! us-intl 2   S-@   2   2)
+  3   (t! us-intl 3   S-#   3   3)
+  4   (t! us-intl 4   S-$   4   4)
+  5   (t! us-intl 5   S-%   5   5)
+  6   (t! us-intl 6   S-^   @dead_circumflex @onequarter)
+  7   (t! us-intl 7   S-&   @dead_horn @onehalf)
+  8   (t! us-intl 8   S-*   @dead_ogonek @threequarters)
+  9   (t! us-intl 9   S-"("   9   9)
+  0   (t! us-intl 0   S-")"   0   0)
+  -   (t! us-intl -   S-_   -   -)
+  =   (t! us-intl =   S-+   =   =)
+  
+  ;; Row 2 (QWERTYUIOP)
+  q   (t! us-intl q   S-q   q   S-q)
+  w   (t! us-intl w   S-w   w   S-w)
+  e   (t! us-intl e   S-e   @EuroSign S-e)
+  r   (t! us-intl r   S-r   @ediaeresis @Ediaeresis)
+  t   (t! us-intl t   S-t   t   S-t)
+  y   (t! us-intl y   S-y   y   S-y)
+  u   (t! us-intl u   S-u   @udiaeresis @Udiaeresis)
+  i   (t! us-intl i   S-i   @idiaeresis @Idiaeresis)
+  o   (t! us-intl o   S-o   @odiaeresis @Odiaeresis)
+  p   (t! us-intl p   S-p   p   S-p)
+  [   (t! us-intl [   S-{   [   {)
+  ]   (t! us-intl ]   S-}   ]   })
+  \   (t! us-intl \   S-|   \   |)
+  
+  ;; Row 3 (ASDFGHJKL)
+  a   (t! us-intl a   S-a   @adiaeresis @Adiaeresis)
+  s   (t! us-intl s   S-s   @ssharp @ssharp)
+  d   (t! us-intl d   S-d   d   S-d)
+  f   (t! us-intl f   S-f   f   S-f)
+  g   (t! us-intl g   S-g   g   S-g)
+  h   (t! us-intl h   S-h   h   S-h)
+  j   (t! us-intl j   S-j   j   S-j)
+  k   (t! us-intl k   S-k   k   S-k)
+  l   (t! us-intl l   S-l   l   S-l)
+  ;   (t! us-intl ;   S-:   ;   :)
+  '   (t! us-intl '   S-'   @dead_acute @dead_diaeresis)
+  
+  ;; Row 4 (ZXCVBNM)
+  z   (t! us-intl z   S-z   z   S-z)
+  x   (t! us-intl x   S-x   @oe @OE)
+  c   (t! us-intl c   S-c   @ccedilla @Ccedilla)
+  v   (t! us-intl v   S-v   @registered @trademark)
+  b   (t! us-intl b   S-b   b   @periodcentered)
+  n   (t! us-intl n   S-n   @ntilde @Ntilde)
+  m   (t! us-intl m   S-m   m   S-m)
+  ,   (t! us-intl ,   S-<   ,   <)
+  .   (t! us-intl .   S->   .   >)
+  /   (t! us-intl /   S-?   /   ?)
+  
+  ;; Special keys
+  bspc bspc
+  tab  tab
+  caps caps
+  ret  ret
+  spc  spc
+  lsft lsft
+  rsft rsft
+  lctl lctl
+  lmet lmet
+  lalt lalt
+  ralt ralt
+  rmet rmet
+  rctl rctl
+  up   up
+  down down
+  lft  lft
+  rght rght
+)
+
+;; Default layer that exactly matches physical layout
+(deflayer default
+  @src
+)
+
+;; Layer selection layer - appears when ctrl+shift+lalt is pressed
+(deflayer layer-select
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    @to-clmk @to-qwty @to-def _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+;; Layer switching aliases
+(defalias
+  layer-select-trigger (layer-while-held layer-select)
+  src use-defsrc
+  
+  to-clmk (layer-switch colemak)
+  to-qwty (layer-switch qwerty)
+  to-def (layer-switch default)
+  
+  mod-switch (switch
+    ((lctl lsft lalt)) @layer-select-trigger break
+    () XX break
+  )
+  
+  nav (layer-while-held navigation)
+  num (layer-while-held numpad)
+  clmk (layer-switch colemak)
+  cstm (layer-switch custom)
+  nmlk (layer-switch numpad)
+  nvlk (layer-switch navigation)
+  qwty (layer-switch qwerty)
+  
+  tav (tap-hold 10 200 t @nav) 
+  nnum (tap-hold 10 200 n @num)
+  grl (tap-hold 100 200 grv @clmk) 
+  shf' (tap-hold 10 100 ' lsft)
+
+  * S-8
+  _ S--
+  ! S-1
+  lpr S-9   ;; left parenthesis
+  rpr S-0   ;; right parenthesis
+  ls lsft
+)
+
+;; Main layers with altgr-intl behavior
+(deflayer qwerty
+  @grl @1 @2 @3 @4 @5 @6 @7 @8 @9 @0 @- @= @bspc
+  @tab @q @w @e @r @t @y @u @i @o @p @[ @] @\
+  @caps @a @s @d @f @g @h @j @k @l @; @' @ret
+  @lsft @z @x @c @v @b @n @m @, @. @/ @rsft
+  @lctl @lmet @lalt @spc @spc @spc @ralt @rmet @rctl
+)
+
+(deflayer colemak
+  @grl @1 @2 @3 @4 @5 @6 @7 @8 @9 @0 @- @= @qwty
+  @tab @q @w @f @p @b @j @l @u @y @; @[ @] @\
+  @caps @a @r @s @t @g @m @n @e @i @o @' @ret
+  @lsft @z @x @c @v @k @h @, @. @/ @lsft @up
+  @lctl @lmet @lalt @spc @spc @spc @ralt @rmet @rctl @lft @down @rght
+)
+
+(deflayer custom
+  @grl _ _ _ _ _ _ _ _ _ _ _ _ @clmk 
+  @tab @q @w @f @p @b @j @l @u @y @; @_ _ _  
+  @bspc @a @r @s @tav @g @m @nnum @e @i @o @ret _  
+  @lsft @x @c @d @v @z @k @h @, @. @/ @shf' _  
+  @lctl @lmet @lalt @spc @spc @spc @ralt @rmet @rctl _ _ _  
+)
+
+(deflayer navigation
+  @grv @1 @2 @3 @4 @5 @6 @7 @8 @9 @0 @- @= @bspc
+  @tab @q @w @f @p @b @j @home @up @end @esc @[ @] @\
+  @bspc @ls @r @s @clmk @g @m @lft @down @rght @o @' @ret
+  @lsft @x @c @d @v @z @pgup @pgdn @, @. @/ @nvlk _  
+  @lctl @lmet @lalt @spc @spc @spc @ralt @rmet @rctl _ _ _  
+)
+
+(deflayer numpad
+  @grv @1 @2 @3 @4 @5 @6 @7 @8 @9 @0 @- @= @bspc
+  S-= @= @7 @8 @9 @* @j @l @[ @] @; @[ @] @\
+  @bspc @- @4 @5 @6 @/ @m @clmk @lpr @rpr @ls @' @ret
+  S-' @1 @2 @3 @0 @grv @k @h @, @. @\ @nmlk _  
+  @lctl @lmet @lalt @spc @spc @spc @lsft @rmet @rctl _ _ _   
+)
+
+;; Map the modifier switch to a convenient key
+(deflayermap (qwerty)
+  grv @mod-switch
+)
